@@ -1,12 +1,44 @@
-import { Link } from "react-router"
+import { Box, Container, Stack, Typography } from "@mui/material";
+import { useState, useEffect } from "react";
+import { colors } from "../../constants/colors";
+import Category from "../category/category";
+import Videos from "../videos/videos";
+import { fetchFromAPI } from "../../service/api.service";
 
+function Main() {
+  const [selectedCategory, setSelectedCategory] = useState("New");
+  const [videos, setVideos] = useState([]);
 
-function Main (){
+  useEffect(() => {
+    async function getVideos() {
+      const data = await fetchFromAPI(
+        `search?part=snippet&q=${selectedCategory}&maxResults=50`
+      );
+      setVideos(data);
+    }
 
+    getVideos();
+  }, [selectedCategory]);
 
-    return (
-        <Link to={'/'}>Main</Link>
-    )
+  return (
+    <Stack>
+      <Category
+        selectedCategory={selectedCategory}
+        selectedCategoryHandler={setSelectedCategory}
+      />
+
+      <Box p={2} sx={{ height: "90vh" }}>
+        <Container maxWidth={"90%"}>
+          <Typography variant="h4" fontWeight="bold" mb={2}>
+            {selectedCategory}{" "}
+            <span style={{ color: colors.secondary }}>videos</span>
+          </Typography>
+        </Container>
+
+        <Videos videos={videos} />
+      </Box>
+    </Stack>
+  );
 }
 
-export default Main
+export default Main;
