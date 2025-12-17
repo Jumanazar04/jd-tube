@@ -1,24 +1,8 @@
-// src/components/videos/Videos.jsx
-import React from "react";
-import {
-  Grid,
-  Card,
-  CardMedia,
-  CardContent,
-  CardActionArea,
-  Typography,
-  Avatar,
-  Box,
-  Stack,
-  useTheme,
-} from "@mui/material";
 import { CheckCircle } from "@mui/icons-material";
-import { Link } from "react-router";
+import { Card, CardMedia, CardContent, Typography, Stack, Avatar, Box } from "@mui/material";
+import { Link } from "react-router-dom";
 
-function Videos({ videos = [], onVideoClick }) {
-  const theme = useTheme();
-
-  function formatDate(dateString) {
+function formatDate(dateString) {
   const date = new Date(dateString);
   return date.toLocaleDateString("en-US", {
     year: "numeric",
@@ -27,25 +11,17 @@ function Videos({ videos = [], onVideoClick }) {
   });
 }
 
+export default function VideoCard({ video }) {
+  const videoId = video?.id?.videoId || video?.id;
+  const snippet = video?.snippet;
 
   return (
-    <Grid container spacing={2}
-      justifyContent={'space-around'}
-    >
-      {videos?.map((video) => {
-        const videoId = video?.id?.videoId || video?.id;
-        const snippet = video?.snippet;
-
-        return (
     <Link
       to={`/video/${videoId}`}
       style={{ textDecoration: "none" }}
-      direction={'column'}
-      key={videoId}
     >
       <Card
         sx={{
-      width:{xs: '100%', sm: '360px', md: '320px', },
           height: "100%",
           borderRadius: 3,
           boxShadow: 4,
@@ -120,10 +96,5 @@ function Videos({ videos = [], onVideoClick }) {
         </CardContent>
       </Card>
     </Link>
-        );
-      })}
-    </Grid>
   );
 }
-
-export default Videos;

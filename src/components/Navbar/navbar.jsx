@@ -10,7 +10,10 @@ const Navbar = () => {
       direction={'row'} 
       justifyContent={'space-between'} 
       p={2} 
+      gap={2}
       alignItems={"center"}
+      position={'sticky'}
+      top={0}
       sx={{position: 'sticky', zIndex: 999, background: colors.primary}}
       >
         <Link to={'/'}>
