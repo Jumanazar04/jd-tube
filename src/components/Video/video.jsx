@@ -32,7 +32,7 @@ export default function Video() {
             const relatedItems = await fetchFromAPI("search", {
                 part: "snippet",
                 // relatedToVideoId o'rniga qidiruvdan foydalanish tavsiya etiladi
-                q: "react tutorials", // Masalan, videoning mavzusini shu yerga qo'ying
+                q: "video", // Masalan, videoning mavzusini shu yerga qo'ying
                 type: "video",
                 maxResults: 20,
             });
