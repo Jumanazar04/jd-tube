@@ -28,18 +28,28 @@ export default function Video() {
         setVideoDetail(detail);
 
         // 2) Related videos
-        const relatedRes = await fetchFromAPI("search", {
-          part: "snippet",
-          relatedToVideoId: id,
-          type: "video",
-          maxResults: 20,
-        });
-console.log(relatedRes.itmes);
+        try {
+            const relatedItems = await fetchFromAPI("search", {
+                part: "snippet",
+                // relatedToVideoId o'rniga qidiruvdan foydalanish tavsiya etiladi
+                q: "react tutorials", // Masalan, videoning mavzusini shu yerga qo'ying
+                type: "video",
+                maxResults: 20,
+            });
 
-        const items = relatedRes?.items || relatedRes || [];
+            // 1. relatedItems massiv ekanligini tekshiramiz
+            if (Array.isArray(relatedItems)) {
+                const filtered = relatedItems.filter((v) => 
+                    v?.id?.videoId && v.id.videoId !== id
+                );
+                setRelatedVideos(filtered);
+            } else {
+                console.error("API massiv qaytarmadi:", relatedItems);
+            }
+        } catch (error) {
+            console.error("Xatolik yuz berdi:", error);
+        }
 
-        const filtered = items.filter((v) => v?.id?.videoId && v.id.videoId !== id);
-        setRelatedVideos(filtered);
       } catch (error) {
         console.error("Failed to load video:", error);
         setRelatedVideos([]);
