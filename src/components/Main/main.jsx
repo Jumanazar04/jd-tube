@@ -10,15 +10,22 @@ function Main() {
   const [videos, setVideos] = useState([]);
 
   useEffect(() => {
-    async function getVideos() {
-      const data = await fetchFromAPI(
-        `search?part=snippet&q=${selectedCategory}&maxResults=50`
-      );
-      setVideos(data);
-    }
+    const timer = setTimeout(async () => {
+      try {
+        const items = await fetchFromAPI("search", {
+          q: selectedCategory,
+          type: "video",
+        });
+        setVideos(items);
+      } catch (e) {
+        console.error(e);
+      }
+    }, 500);
 
-    getVideos();
+    return () => clearTimeout(timer);
   }, [selectedCategory]);
+
+
 
   return (
     <Stack>
