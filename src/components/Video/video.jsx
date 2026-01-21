@@ -34,6 +34,7 @@ export default function Video() {
           type: "video",
           maxResults: 20,
         });
+console.log(relatedRes.itmes);
 
         const items = relatedRes?.items || relatedRes || [];
 
@@ -61,6 +62,9 @@ export default function Video() {
   if (!videoDetail) {
     return <Typography p={2}>Video not found</Typography>;
   }
+
+  console.log(relatedVideos);
+  
 
   const { snippet, statistics } = videoDetail;
 
